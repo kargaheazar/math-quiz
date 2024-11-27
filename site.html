@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سوالات ریاضی تصادفی</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f7f7f7;
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 400px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>سوالات ریاضی تصادفی</h1>
+  <form id="quizForm">
+    <div id="questionsContainer"></div>
+    <button type="button" onclick="checkAnswers()">ارسال</button>
+  </form>
+  <div class="result" id="result"></div>
+
+  <script>
+    const questions = [
+      { question: "حاصل 5 + 3 چیست؟", answer: 8 },
+      { question: "حاصل 9 × 2 چیست؟", answer: 18 },
+      { question: "حاصل 12 ÷ 4 چیست؟", answer: 3 },
+      { question: "حاصل 7 - 2 چیست؟", answer: 5 },
+      { question: "حاصل 6 × 6 چیست؟", answer: 36 },
+      { question: "حاصل 15 ÷ 3 چیست؟", answer: 5 },
+      { question: "حاصل 10 + 5 چیست؟", answer: 15 },
+      { question: "حاصل 20 - 7 چیست؟", answer: 13 },
+    ];
+
+    const selectedQuestions = [];
+    const correctAnswers = [];
+
+    // انتخاب 3 سوال تصادفی
+    while (selectedQuestions.length < 3) {
+      const randomIndex = Math.floor(Math.random() * questions.length);
+      if (!selectedQuestions.includes(questions[randomIndex])) {
+        selectedQuestions.push(questions[randomIndex]);
+        correctAnswers.push(questions[randomIndex].answer);
+      }
+    }
+
+    // نمایش سوالات در فرم
+    const questionsContainer = document.getElementById("questionsContainer");
+    selectedQuestions.forEach((q, index) => {
+      const questionHTML = `
+        <label>${index + 1}. ${q.question}</label>
+        <input type="number" id="q${index}" required>
+      `;
+      questionsContainer.innerHTML += questionHTML;
+    });
+
+    // بررسی پاسخ‌ها
+    function checkAnswers() {
+      const userAnswers = selectedQuestions.map((_, i) =>
+        parseInt(document.getElementById(`q${i}`).value)
+      );
+
+      let resultText = '';
+      userAnswers.forEach((answer, index) => {
+        if (answer === correctAnswers[index]) {
+          resultText += `سوال ${index + 1}: درست ✅<br>`;
+        } else {
+          resultText += `سوال ${index + 1}: غلط ❌ (جواب درست: ${correctAnswers[index]})<br>`;
+        }
+      });
+
+      document.getElementById('result').innerHTML = resultText;
+    }
+  </script>
+</body>
+</html>
